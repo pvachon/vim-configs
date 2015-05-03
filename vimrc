@@ -11,31 +11,34 @@ set helplang=en
 set history=50
 set nomodeline
 set ruler
+
 set suffixes=.class,.jar,.war,.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
-set shiftwidth=4
-set tabstop=4
 set termencoding=utf-8
+
+" Make it pretty
 colorscheme twilight256
 syntax on
+
+" Coding style rules
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+
 set number
+
+" Decorate the status bar with various useful bits of info and keep it always
+" visible
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ %{fugitive#statusline()}
+set laststatus=2
 
-
+" Highlight trailing whitespace
 hi link localWhitespaceError Error
 au Syntax * syn match localWhitespaceError /\(\zs\%#\|\s\)\+$/ display
 au Syntax * syn match localWhitespaceError / \+\ze\t/ display
 
-au BufNewFile,BufRead *.cu set ft=cu
-
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-let Tlist_WinWidth = 50
-map <F4> :TlistToggle<cr>
 map <C-}> :tnext<cr>
 
 nnoremap <C-H> :Hexmode<CR>
@@ -94,13 +97,14 @@ nnoremap <C-M> :cprevious<CR>
 " Mark F5 for :make
 map <F5> :make<cr>
 
-" Fix Makefile tablature
+" Fix Makefile tablature since it requires hard tabs
 autocmd FileType make setlocal noexpandtab
 
+" My preferred wildcard list modes
 set wildmode=longest,list,full
 set wildmenu
-set laststatus=2
 
+" When using with vimrc
 set guifont=Consolas:h16
 
 " Disable console bell
@@ -108,6 +112,7 @@ set vb t_vb=
 
 filetype plugin indent on
 
+" For some reason these languages seem to stink less with 2-space tabs
 autocmd filetype html setlocal ts=2 sts=2 sw=2
 autocmd filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd filetype javascript setlocal ts=2 sts=2 sw=2
