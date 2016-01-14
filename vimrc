@@ -122,3 +122,15 @@ autocmd filetype html setlocal ts=2 sts=2 sw=2
 autocmd filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd filetype xml setlocal ts=2 sts=2 sw=2
+
+if filereadable(expand("%:p:h")."/Makefile")
+    setlocal makeprg=make 
+elseif filereadable(expand("%:p:h")."/wscript")
+    if filereadable(expand("%:p:h")."/waf")
+        " Use the local version of waf
+        execute "setlocal makeprg=" . fnameescape(expand("%:p:h")."/waf")
+    else
+        " Hopefully we have a universal waf somewhere in our path
+        setlocal makeprg=waf
+    endif
+endif
