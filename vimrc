@@ -100,6 +100,11 @@ map <F5> :make<cr>
 " Fix Makefile tablature since it requires hard tabs
 autocmd FileType make setlocal noexpandtab
 
+" Waf wscripts
+autocmd BufRead,BufNewFile wscript setlocal noexpandtab
+
+" Add Waf as a valid build command
+
 " My preferred wildcard list modes
 set wildmode=longest,list,full
 set wildmenu
