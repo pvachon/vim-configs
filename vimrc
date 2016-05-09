@@ -101,7 +101,7 @@ map <F5> :make<cr>
 autocmd FileType make setlocal noexpandtab
 
 " Waf wscripts
-autocmd BufRead,BufNewFile wscript setlocal noexpandtab
+autocmd BufRead,BufNewFile wscript setlocal noexpandtab syntax=python
 
 " Add Waf as a valid build command
 
