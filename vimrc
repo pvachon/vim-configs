@@ -1,6 +1,23 @@
+" install vim-plug
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
+
+" Disable compatibility mode
 set nocp
 
-execute pathogen#infect()
+" Start vim-plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-fugitive'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'itchyny/lightline.vim'
+
+call plug#end()
 
 set autoindent
 set background=dark
@@ -27,20 +44,40 @@ set expandtab
 
 set number
 
+" Set up rainbow parens
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+autocmd VimEnter * RainbowParentheses
+
 " Decorate the status bar with various useful bits of info and keep it always
 " visible
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ %{fugitive#statusline()}
-set laststatus=2
+"set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P\ %{fugitive#statusline()}
 
-" Highlight trailing whitespace
-hi link localWhitespaceError Error
-au Syntax * syn match localWhitespaceError /\(\zs\%#\|\s\)\+$/ display
-au Syntax * syn match localWhitespaceError / \+\ze\t/ display
+" Hide the mode on the bottom line
+set noshowmode
+
+" Configure Lightline
+let g:lightline = {
+    \   'colorscheme': 'jellybeans',
+    \   'active' : {
+    \     'left' : [ [ 'mode', 'paste' ],
+    \                [ 'readonly', 'filename', 'modified' ] ],
+    \     'right': [ [ 'lineinfo' ],
+    \                [ 'percent' ],
+    \                [ 'fileformat', 'fileencoding', 'filetype', 'gitbranch' ] ]
+    \   },
+    \   'component_function' : {
+    \     'gitbranch' : 'fugitive#statusline'
+    \   },
+    \ }
+
+" Enable the status line
+set laststatus=2
 
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <C-}> :tnext<cr>
 
+" Mappings for Toggling Hexmode
 nnoremap <C-H> :Hexmode<CR>
 inoremap <C-H> <Esc>:Hexmode<CR>
 vnoremap <C-H> :<C-U>Hexmode<CR>
@@ -103,7 +140,12 @@ autocmd FileType make setlocal noexpandtab
 " Waf wscripts
 autocmd BufRead,BufNewFile wscript setlocal noexpandtab syntax=python
 
-" Add Waf as a valid build command
+" Kill if Nerd-Tree is the only thing open
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:plug_window = 'noautocmd vertical topleft new'
+
+" If more than one window and previous buffer was NERDTree, go back to it.
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 
 " My preferred wildcard list modes
 set wildmode=longest,list,full
@@ -115,6 +157,10 @@ set guifont=Consolas:h16
 " Disable console bell
 set vb t_vb=
 
+if !has('gui_running')
+  set t_Co=256
+endif
+
 filetype plugin indent on
 
 " For some reason these languages seem to stink less with 2-space tabs
@@ -124,7 +170,7 @@ autocmd filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd filetype xml setlocal ts=2 sts=2 sw=2
 
 if filereadable(getcwd()."/Makefile")
-    set makeprg=make 
+    set makeprg=make
 elseif filereadable(getcwd()."/wscript")
     if filereadable(getcwd()."/waf")
         " Use the local version of waf
