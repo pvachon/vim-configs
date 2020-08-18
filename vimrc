@@ -140,16 +140,16 @@ map <F5> :make<cr>
 map <C-F5> :Termdebug<cr>
 
 " Map Ctrl+S to single step
-map <C-S>  :Step<cr>
+map <C-S> :Step<cr>
 
 " Map Ctrl+O to step over
-map <C-O>  :Over<cr>
+map <C-O> :Over<cr>
 
 " Map Ctrl+F to finish
-map <C-F>   :Finish<cr>
+map <C-F> :Finish<cr>
 
 " Map Ctrl+B to insert a breakpoint under the cursor
-map <C-B>   :Break<cr>
+map <C-B> :Break<cr>
 
 
 " Fix Makefile tablature since it requires hard tabs
@@ -163,7 +163,7 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:plug_window = 'noautocmd vertical topleft new'
 
 " If more than one window and previous buffer was NERDTree, go back to it.
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
+"autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 
 " My preferred wildcard list modes
 set wildmode=longest,list,full
