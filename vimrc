@@ -13,7 +13,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'preservim/nerdtree' |
             \ Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'itchyny/lightline.vim'
 
@@ -31,6 +30,9 @@ set ruler
 
 set suffixes=.class,.jar,.war,.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 set termencoding=utf-8
+
+" Bring on the GDB
+packadd termdebug
 
 " Make it pretty
 colorscheme twilight256
@@ -133,6 +135,22 @@ nnoremap <C-M> :cprevious<CR>
 
 " Mark F5 for :make
 map <F5> :make<cr>
+
+" Map Ctrl+F5 to enter debugging
+map <C-F5> :Termdebug<cr>
+
+" Map Ctrl+S to single step
+map <C-S>  :Step<cr>
+
+" Map Ctrl+O to step over
+map <C-O>  :Over<cr>
+
+" Map Ctrl+F to finish
+map <C-F>   :Finish<cr>
+
+" Map Ctrl+B to insert a breakpoint under the cursor
+map <C-B>   :Break<cr>
+
 
 " Fix Makefile tablature since it requires hard tabs
 autocmd FileType make setlocal noexpandtab
