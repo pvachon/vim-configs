@@ -114,6 +114,7 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+" Enable autocomplete pop-up for C-space
 function! Auto_complete_string()
     if pumvisible()
         return "\<C-n>"
