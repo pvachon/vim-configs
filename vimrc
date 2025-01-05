@@ -40,7 +40,7 @@ set suffixes=.class,.jar,.war,.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf
 set termencoding=utf-8
 
 " Bring on the GDB
-packadd termdebug
+packadd! termdebug
 
 " Make it pretty
 colorscheme twilight256
@@ -139,9 +139,9 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <C-}> :tnext<cr>
 
 " Mappings for Toggling Hexmode
-nnoremap <C-H> :Hexmode<CR>
-inoremap <C-H> <Esc>:Hexmode<CR>
-vnoremap <C-H> :<C-U>Hexmode<CR>
+"nnoremap <C-H> :Hexmode<CR>
+"inoremap <C-H> <Esc>:Hexmode<CR>
+"vnoremap <C-H> :<C-U>Hexmode<CR>
 
 " ex command for toggling hex mode - define mapping if desired
 command -bar Hexmode call ToggleHex()
@@ -245,6 +245,7 @@ autocmd filetype html setlocal ts=2 sts=2 sw=2
 autocmd filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd filetype xml setlocal ts=2 sts=2 sw=2
+autocmd filetype jsonnet setlocal ts=2 sts=2 sw=2
 
 if filereadable(getcwd()."/Makefile")
     set makeprg=make
